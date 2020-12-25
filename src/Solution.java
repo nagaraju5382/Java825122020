@@ -11,9 +11,6 @@ class Solution{
         System.out.println("alist size: "+alist.size());
         Consumer<char[]> consumer = x ->{System.out.println(x);};
         alist.stream().forEach(consumer);
-        a.forEach(){
-
-        }
 
         //char[] bchars = b.toCharArray();
         //List<char[]> chars1 = Arrays.asList(bchars);

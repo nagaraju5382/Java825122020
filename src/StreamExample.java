@@ -13,9 +13,18 @@ public class StreamExample {
     public static void main(String[] args) {
         Person p = new Person("name","lastName",3);
         Person p2 = new Person("naga","gunji",34);
+        Person p3 = new Person("peter","galvin",43);
+        Person p4 = new Person("alex","sophie",64);
+        Person p5 = new Person("kenneth","jenny",23);
+        Person p6 = new Person("fredrik","tengroth",34);
+
         List<Person> personList = new ArrayList<Person>();
         personList.add(p);
         personList.add(p2);
+        personList.add(p3);
+        personList.add(p4);
+        personList.add(p5);
+        personList.add(p6);
 
         Stream<Person> s = personList.stream();
         // Build Stream pattern 1, it is useful for testing purpose
@@ -58,13 +67,66 @@ public class StreamExample {
         //The filter call does not change the type of a stream
         s.
                 map(x->x.getFirstName()).
-                peek(System.out::print).
+                peek(System.out::println).
                 filter(Objects::nonNull).
                 filter(x->x.equalsIgnoreCase("naga")).
                 forEach(System.out::println);
+        // skip first 2 and get only 3
+            /*
+            Exception in thread "main" java.lang.IllegalStateException: stream has already been operated upon or closed
+	at java.util.stream.AbstractPipeline.<init>(AbstractPipeline.java:203)
+	at java.util.stream.ReferencePipeline.<init>(ReferencePipeline.java:94)
+	at java.util.stream.ReferencePipeline$StatelessOp.<init>(ReferencePipeline.java:618)
+	at java.util.stream.ReferencePipeline$3.<init>(ReferencePipeline.java:187)
+	at java.util.stream.ReferencePipeline.map(ReferencePipeline.java:186)
+	at StreamExample.main(StreamExample.java:77)
+
+	// If you use same stream for multiple times.
+
+	 s.
+                map(x->x.getFirstName()).
+                skip(2).
+                limit(2).
+                peek(System.out::println).
+               // filter(Objects::nonNull).
+                //filter(x->x.equalsIgnoreCase("naga")).
+                forEach(System.out::println);
+             */
+        personList.stream().
+                map(x->x.getFirstName()).
+                skip(2).
+                limit(2).
+                peek(System.out::println).
+               // filter(Objects::nonNull).
+                //filter(x->x.equalsIgnoreCase("naga")).
+                forEach(System.out::println);
+        // Match Reduction operations
+
+        // Three types of matchers:anyMatch(),allMatch() and noneMatch()
+        // They are terminal operations that return a boolean
+        boolean b = personList.stream().anyMatch(u -> u.getAge() > 20);
+        System.out.println("At least one of  person age is > 20 : " + b);
+        boolean allMatch = personList.stream().allMatch(u -> u.getAge() > 20);
+        System.out.println("All  persons age is > 20 : " + allMatch);
+
+        // These three matches may not evaluate the predicate for all the elements
+        // They are called short-circuiting terminal operations
+
+        // Find Reduction operations
+        // findFirst() and findAny()
+
+        // if the stream is empty Or if there is no value that matches the predicate
+        //So they both return an Optional, that can be empty
 
 
+        // Reduce Reduction
+        //There are three types of reduction
+        //if no identity element is provided, then an Optional is returned
 
-
+        int sumOfAges = personList.stream().map(oi->oi.getAge()).reduce(0,(xs,swe)->xs+swe);
+        System.out.print("Sum of Ages: "+sumOfAges);
     }
+
+
+
 }

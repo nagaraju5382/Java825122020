@@ -18,7 +18,7 @@ public class StreamExample {
         Stream<String> stringStream = Stream.of("one","two","three");
         //Build Stream pattern 3
         Stream<String> stringStreamGenerate = Stream.generate(()->"one");
-        
+
 
     }
 }

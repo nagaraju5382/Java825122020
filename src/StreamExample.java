@@ -125,6 +125,11 @@ public class StreamExample {
 
         int sumOfAges = personList.stream().map(oi->oi.getAge()).reduce(0,(xs,swe)->xs+swe);
         System.out.print("Sum of Ages: "+sumOfAges);
+
+        //Third version of reduce operation
+        //identity element , accumlator, combiner
+        /*List<Integer> ages = personList.stream().
+                reduce(new ArrayList<Integer>(),(list,pw)->{list.add(pw.getAge());return  list;},(list1,list2)-{list1.addAll(list2);return list1;});*/
     }
 
 
